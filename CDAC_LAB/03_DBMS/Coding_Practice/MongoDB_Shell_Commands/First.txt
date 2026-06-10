@@ -1,0 +1,133 @@
+If you want to use a database with name <mydb>, then use DATABASE statement would be as follows −
+
+test> use mydb
+switched to db mydb
+By default, we were connected to test database.
+---------------------------------------------------------------
+To check your currently selected database, use the command db
+mydb>db
+----------------------------------------------------------------
+If you want to check your databases list, use the command show dbs.
+mydb>show dbs
+
+Create Collection Students With This Command
+-------------------------------------------------------------
+db.createCollection("students")
+--------------------------------------------------------------
+Add One Document with This Command
+---------------------------------------------------
+db.students.insertOne({
+  stno: 1,
+  stname: "krishna",
+  fees: 1000
+})
+------------------------------------------------------
+Add Many Documents With This Command
+--------------------------------------------------------
+db.students.insertMany([
+  { stno: 2, stname: "prasad", fees: 2000 },
+  { stno: 3, stname: "alka", fees: 3000 },
+  { stno: 4, stname: "akshata", fees: 5000 }
+])
+---------------------------------------------------------
+To See All Records Use This Command
+
+db.students.find().pretty()
+
+------------------------------------------------
+To see one Record With name radha
+
+db.students.findOne({ stname: "alka" })
+
+---------------------------------------------------
+If you aren't sure if the name starts with a capital letter, you can use 
+a regex search:
+
+db.students.findOne({ stname: /^radha$/i })
+----------------------------------------------------------
+To see Few Records With Fees>3000
+db.students.find({ fees: { $gt: 3000 } })
+-------------------------------------------------
+db.students.find({ 
+  fees: { $gte: 1000, $lte: 3000 } 
+})
+
+Update One Record
+----------------------------------------------------
+db.students.updateOne(
+  { stname: "akshata" },
+  { $set: { stname: "anu" } }
+)
+-----------------------------------------------------
+Update Many Records
+
+db.students.updateMany(
+  { fees: { $lte: 1000 } },
+  { $set: { fees: 2000 } }
+)
+
+------------------------------------------------------
+Delete one Record
+
+db.students.deleteOne({ stno: 4 })
+
+---------------------------------------------------------
+Delete Few Records
+db.students.deleteMany({ fees: { $gte: 1000 } })
+------------------------------------------------------------
+Delete All Records
+db.students.deleteMany({})
+
+-------------------------------------------
+drop collection students
+
+db.students.drop()
+
+------------------------------------------
+drop database mydb
+
+db.dropDatabase()
+
+-----------------------------------------------------------------------
+Example: Show students from highest fees to lowest
+
+db.students.find().sort({ fees: -1 })
+
+Example: Show students from lowest fees to highest
+
+db.students.find().sort({ fees: 1 })
+---------------------------------------------------------------------
+
+Calculate the Sum of all fees
+-------------------------------------
+JavaScript
+db.students.aggregate([
+  {
+    $group: {
+      _id: null, // We aren't grouping by a specific category, just the whole list
+      totalFees: { $sum: "$fees" }
+    }
+  }
+])
+
+-----------------------------------------------
+
+Show only the top 2 highest-paying students
+
+
+db.students.find().sort({ fees: -1 }).limit(2)
+
+------------------------------------------------------
+
+Show only names (and hide the messy _id)
+
+
+db.students.find({}, { stname: 1, _id: 0 })
+
+
+-------------------------------------------------------------
+
+Let's say you often search for students by their name. You can create an index on the stname field to speed this up.
+
+JavaScript
+db.students.createIndex({ stname: 1 })

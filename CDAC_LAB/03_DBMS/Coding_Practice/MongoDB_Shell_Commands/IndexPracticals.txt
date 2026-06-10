@@ -1,0 +1,39 @@
+The basic syntax of createIndex() method is as follows().
+
+db.COLLECTION_NAME.createIndex({KEY:1})
+
+Here key is the name of the field on which you want to create index and 1 is for ascending order. To create index in descending order you need to use -1.
+
+db.mycol.createIndex({"title":1})
+
+In createIndex() method you can pass multiple fields, to create index on multiple fields.
+
+db.mycol.createIndex({"title":1,"description":-1})
+--------------------------------------------------------------------------------
+The getIndexes() method
+This method returns the description of all the indexes int the collection.
+
+Syntax
+Following is the basic syntax od the getIndexes() method −
+
+db.COLLECTION_NAME.getIndexes()
+
+db.mycol.getIndexes()
+---------------------------------------------------------------------------------
+The dropIndex() method
+You can drop a particular index using the dropIndex() method of MongoDB.
+
+Syntax
+The basic syntax of DropIndex() method is as follows().
+
+ db.mycol.dropIndex({"title":1})
+
+db.mycol.dropIndexes({"title":1,"description":-1})
+
+The dropIndexes() method
+This method deletes multiple (specified) indexes on a collection.
+
+Syntax
+The basic syntax of DropIndexes() method is as follows() −
+
+db.COLLECTION_NAME.dropIndexes()

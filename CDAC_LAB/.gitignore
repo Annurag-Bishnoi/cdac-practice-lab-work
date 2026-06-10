@@ -1,0 +1,37 @@
+# Java
+*.class
+target/
+bin/
+out/
+.metadata/
+.settings/
+.classpath
+.project
+
+# C / C++
+*.exe
+*.o
+*.obj
+*.out
+a.out
+
+# Node / React
+node_modules/
+dist/
+build/
+.env
+.env.local
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Archives / notes
+*.zip
+*.rar
+*.7z

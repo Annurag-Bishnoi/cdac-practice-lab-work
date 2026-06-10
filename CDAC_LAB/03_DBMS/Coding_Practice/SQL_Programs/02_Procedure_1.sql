@@ -1,0 +1,21 @@
+DELIMITER //
+CREATE PROCEDURE SAL_INCREASE(IN N INT)
+BEGIN
+  
+    DECLARE S DECIMAL(7,2);
+    
+ 
+    DECLARE EXIT HANDLER FOR NOT FOUND 
+    BEGIN
+        SELECT 'EMPNO DOES NOT EXIST' AS ErrorMessage;
+    END;
+
+    -- Fetch current salary
+    SELECT SAL INTO S FROM EMP WHERE EMPNO = N;
+
+    -- Perform update
+    UPDATE EMP SET SAL = S + 500 WHERE EMPNO = N;
+    
+END //
+
+DELIMITER ;

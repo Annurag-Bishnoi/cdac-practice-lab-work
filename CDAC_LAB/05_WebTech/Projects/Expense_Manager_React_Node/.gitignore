@@ -1,0 +1,26 @@
+# dependencies
+node_modules/
+frontend/node_modules/
+backend/node_modules/
+
+# builds
+build/
+frontend/build/
+dist/
+
+# env / local config
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor
+.DS_Store
+.vscode/

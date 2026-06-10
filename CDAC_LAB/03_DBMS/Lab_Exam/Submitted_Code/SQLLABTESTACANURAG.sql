@@ -1,0 +1,115 @@
+
+
+-- **************************************************SQL Query*************************************************
+
+-- Q1. -- Write A Query Showing Details Empno,Ename,Deptno,Dname, Loc  Including Non Matching Rows From Emp And Dept With Matching Rows 
+
+select e.empno,e.ename,d.deptno,d.dname,d.loc from emp e  join dept d on e.deptno=d.deptno; 
+
+-- Q2. --Write A Query To Show Ename, Sal, Grade Who Are Taking More Salary Than Salary Taken by SMITH, ALLEN, JONES 
+
+select ename,salary from emp where salary <>(select salary from emp where ename='smith' ) 
+and salary <>(select salary from emp where ename='Allen' ) and 
+salary <>(select salary from emp where ename='Jones' );
+
+
+
+-- Q3 -- Find Deptno,Dname,Loc Of Those Departments Who Have No Employee In Emp Table. 
+
+select e.ename,d.deptno ,d.dname , d.loc from dept d join emp e on d.deptno=d.deptno where empno is null ; 
+
+ 
+-- Q4 --Create Table Called Contractors(Cont_id,Work_id,Cont_name,City)  With Cont_id And Work_id As Composite Primary Key 
+
+create table contractors(cont_id int primary key auto_increment ,work_id int , count_name varchar(50),city varchar(50),
+  constraint cont_id foreign  key  reference tabel_1(work_id) ;
+
+
+
+
+-- ************************************************** Cursor*************************************************
+-- Q1 ---> Write a Cursor Program To Accept Job from User And Increase All Persons Salary Belonging To That Job by Rs 200/- If Their Current Salary is Less Than or Equal To Rs 1000/- Else It Should Increased By Rs 100/- 
+
+
+delimiter //
+create procedure Update_Salary(in u_job varchar(50)) 
+begin 
+declare done int default 0;
+declare c_job varchar(50);
+declare c_sal int ;
+
+declare cur_Inc_Sal cursor for 
+select job,salary from employee ;
+
+declare continue handler for not found set done =1;
+
+open cur_Inc_Sal ;
+
+read_loop : loop 
+
+fetch cur_Inc_Sal into c_job,c_sal;
+
+if done =1 then leave read_loop ;
+end if ;
+
+if c_sal<=1000 then 
+update employee set salary =c_sal+200 where c_job=u_job;
+else
+update employee set salary =c_sal+100 where c_job=u_job;
+end if;
+
+end loop;
+end //
+delimiter ;
+
+call Update_Salary('IT');
+select * from employee;
+
+
+-- **************************************************Trigger*************************************************
+-- Q2--. Write A Trigger Program To Restrict Delete Operation on Saturday Or Sunday 
+
+delimiter //
+create trigger restrict_delete 
+before delete on employee 
+for each row 
+begin
+if day(current_date())='Sunday' then 
+signal sqlstate  '45000'
+set message_text ='Delete Operation is not Allowed on Saturday or Sunday';
+elseif day(current_date())='Saturday' then
+signal sqlstate '45000'
+set message_text ='Delete Operation is not Allowed on Saturday or Sunday';
+end if ;
+end //
+
+
+-- **************************************************Mongo Db*************************************************
+
+-- a) --> Create A Mongo DB Collection Called Student(Stno,Stname,Doa,Fees) and Insert One Document(1,"Krishna","2026/10/25",1000) 
+
+db.student.insertOne({ stno : 1 ,
+                        stname : "Krishna",
+                        Doa : "2026/10/25",
+                        Fees : 1000 })
+                        
+-- b) --> Insert 4 Records Using Insert Many Options With Your Own Data 
+db.student.insertOne([ { stno : 2 ,
+                        stname : "Anurag",
+                        Doa : "2026/10/05",
+                        Fees : 2000 },
+                        { stno : 3 ,
+                        stname : "Vaibhav",
+                        Doa : "2026/10/23",
+                        Fees : 5000 },
+                        { stno : 4 ,
+                        stname : "Aashish",
+                        Doa : "2026/10/21",
+                        Fees : 3000 },
+                        { stno : 5 ,
+                        stname : "Mayank",
+                        Doa : "2026/10/20",
+                        Fees : 2000 }
+                        ]
+                        )
+
