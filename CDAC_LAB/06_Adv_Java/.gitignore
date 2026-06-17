@@ -1,0 +1,22 @@
+# Eclipse workspace and project metadata
+.metadata/
+.settings/
+.classpath
+.project
+
+# Build output
+build/
+bin/
+target/
+out/
+*.class
+
+# Local server/runtime configuration
+Servers/
+
+# Logs and local configuration
+*.log
+.env
+application.properties
+db.properties
+
